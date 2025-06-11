@@ -20,6 +20,30 @@ def get_transactions():
     return render_template("transactions.html", transactions=transactions)
 
 
+@app.route("/search", methods=["GET", "POST"])
+def search_transactions():
+    """
+    Read operation: Route to list transactions within a specified amount range
+    """
+
+    # Check if the request method is POST (form submission)
+    if request.method == "POST":
+
+        filtered_transactions = []
+
+        min_amount = float(request.form["min_amount"])
+        max_amount = float(request.form["max_amount"])
+
+        for transaction in transactions:
+            if transaction["amount"] >= min_amount and transaction["amount"] <= max_amount:
+                filtered_transactions.append(transaction)
+
+        return render_template("transactions.html", transactions=filtered_transactions)
+
+    # If the request method is GET, render the form template to capture min & max amounts for a search
+    return render_template("search.html")
+
+
 @app.route("/add", methods=["GET", "POST"])
 def add_transaction():
     """
@@ -65,13 +89,13 @@ def edit_transaction(transaction_id):
 
         # Redirect to the transactions list page after updating the transaction
         return redirect(url_for("get_transactions"))
-    
+
     # If the request method is GET, find the transaction with the matching ID and render the edit form
     for transaction in transactions:
         if transaction["id"] == transaction_id:
             # Render the edit form template and pass the transaction to be edited
             return render_template("edit.html", transaction=transaction)
-        
+
     # If the transaction with the specified ID is not found, handle this case (optional)
     return {"message": "Transaction not found"}, 404
 
