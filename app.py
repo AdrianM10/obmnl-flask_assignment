@@ -1,6 +1,6 @@
 from flask import Flask, redirect, request, render_template, url_for
 
-# Instantiate Flask functionality
+# Instantiate Flask application
 app = Flask(__name__)
 
 # Sample data
@@ -13,13 +13,18 @@ transactions = [
 
 @app.route("/")
 def get_transactions():
-    """Retrieve all transactions"""
+    """
+    Read operation: Route to list all transactions
+    Render the transactions list template and pass the transactions data
+    """
     return render_template("transactions.html", transactions=transactions)
 
 
 @app.route("/add", methods=["GET", "POST"])
 def add_transaction():
-    """Add new transaction(s)"""
+    """
+    Create operation: Route to display and process add transaction form
+    """
 
     # Check if the request method is POST (form submission)
     if request.method == "POST":
@@ -41,7 +46,9 @@ def add_transaction():
 
 @app.route("/edit/<int:transaction_id>", methods=["GET", "POST"])
 def edit_transaction(transaction_id):
-    """Update transaction(s)"""
+    """
+    Update operation: Route to display and process edit transaction form
+    """
 
     # Check if the request method is POST (form submission)
     if request.method == "POST":
@@ -57,7 +64,7 @@ def edit_transaction(transaction_id):
                 break
 
         # Redirect to the transactions list page after updating the transaction
-        return redirect(url_for("get_transaction"))
+        return redirect(url_for("get_transactions"))
     
     # If the request method is GET, find the transaction with the matching ID and render the edit form
     for transaction in transactions:
@@ -71,7 +78,9 @@ def edit_transaction(transaction_id):
 
 @app.route("/delete/<int:transaction_id>")
 def delete_transaction(transaction_id):
-    """Delete transaction"""
+    """
+    Delete operation: Route to delete a transaction
+    """
 
     # Find the transaction with the matching ID and remove it from the list
     for transaction in transactions:
@@ -82,4 +91,6 @@ def delete_transaction(transaction_id):
     # Redirect to the transactions list page after deleting the transaction
     return redirect(url_for("get_transactions"))
 
-# Run the Flask app
+
+if __name__ == "__main__":
+    app.run(debug=True)
