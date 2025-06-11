@@ -11,6 +11,9 @@ transactions = [
 ]
 
 # Read operation
+@app.route("/")
+def get_transactions():
+    return render_template("transactions.html", transactions=transactions)
 
 # Create operation
 
@@ -19,3 +22,4 @@ transactions = [
 # Delete operation
 
 # Run the Flask app
+
