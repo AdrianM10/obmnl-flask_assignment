@@ -83,8 +83,8 @@ def edit_transaction(transaction_id):
         # Find the transaction with the matching ID and update its values
         for transaction in transactions:
             if transaction["id"] == transaction_id:
-                transaction["date"] == date
-                transaction["amount"] == amount
+                transaction["date"] = date
+                transaction["amount"] = amount
                 break
 
         # Redirect to the transactions list page after updating the transaction
