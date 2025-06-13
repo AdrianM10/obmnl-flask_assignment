@@ -116,5 +116,15 @@ def delete_transaction(transaction_id):
     return redirect(url_for("get_transactions"))
 
 
+@app.route("/balance")
+def total_balance():
+    """
+    Read operation: Calculate and display the total balance of all transactions
+    """
+
+    total = sum(transaction["amount"] for transaction in transactions)
+    
+    return f"Total Balance: {total}"
+
 if __name__ == "__main__":
     app.run(debug=True)
